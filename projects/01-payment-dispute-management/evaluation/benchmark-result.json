@@ -1,0 +1,6 @@
+{
+  "benchmark_cases": 100,
+  "agreement_rate": 100.0,
+  "correct": 100,
+  "human_review_cases": 25
+}
