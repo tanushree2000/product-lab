@@ -1,5 +1,1 @@
-import "./globals.css";
-export const metadata = { title: "Payment Dispute Management System", description: "Payment dispute operations portfolio MVP" };
-export default function RootLayout({children}:{children:React.ReactNode}) {
-  return <html lang="en"><body>{children}</body></html>;
-}
+import "./globals.css"; export const metadata={title:"Payment Dispute Management System"}; export default function Layout({children}:{children:React.ReactNode}){return <html lang="en"><body>{children}</body></html>}

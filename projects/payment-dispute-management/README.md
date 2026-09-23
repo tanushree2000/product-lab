@@ -1,123 +1,48 @@
 # Payment Dispute Management System
 
-A full-stack portfolio MVP for managing and analyzing payment disputes.
+A working AI-assisted fintech operations MVP for payment-dispute investigation.
 
-## Stack
-- Next.js 16 App Router + React 19 + TypeScript
-- Tailwind CSS 4
-- FastAPI + Python 3.12
-- SQLAlchemy 2 + PostgreSQL 17
-- Pydantic 2
-- Docker Compose
-- Pytest
-- Optional OpenAI-generated analyst summaries (the core decision engine works without an API key)
+**Workflow:** Queue → Case → AI analysis → deterministic guardrails → analyst decision → audit trail.
 
-## Features
-- Operations dashboard with dispute KPIs
-- Searchable dispute queue
-- Case detail view
-- Evidence completeness tracking
-- Explainable recommendation engine
-- Human-review routing
-- Case status updates
-- Audit events
-- Seed data
-- REST API + OpenAPI docs
-- Health check
-- Dockerized local setup
-- Automated backend tests
+The AI analyst produces a case summary, evidence strengths, missing evidence, risk signals, a proposed action, confidence, and rationale. Deterministic rules independently assess objective evidence. Low-confidence, risky, or disagreement cases route to human review. The analyst—not the AI—makes the final financial decision.
 
-> Portfolio/educational software. The sample data is synthetic. The recommendation engine is a transparent demo and must not be used for real financial decisions.
-
-## Fastest way to run
-
-Install Docker Desktop, then:
+## Run
+Requires Docker Desktop.
 
 ```bash
 cp .env.example .env
 docker compose up --build
 ```
 
-Open:
-- App: http://localhost:3000
-- API docs: http://localhost:8000/docs
-- API health: http://localhost:8000/health
+Open `http://localhost:3000`. API docs are at `http://localhost:8000/docs`.
 
-The database is automatically created and seeded.
+The product works without an API key using a deterministic fallback analyst. To use the live LLM path, add `OPENAI_API_KEY` to `.env` and restart. Never commit `.env`.
 
-## Run without Docker
+## MVP
+- dispute dashboard and queue
+- searchable cases
+- AI/fallback case synthesis
+- evidence strengths and gaps
+- risk signals
+- recommendation + confidence
+- deterministic evidence guardrails
+- AI/rules disagreement detection
+- human-review routing
+- analyst final decision
+- audit trail
+- synthetic evaluation suite
+- seeded demo data
 
-### Backend
+## Stack
+Next.js · TypeScript · Tailwind · FastAPI · Python · PostgreSQL · SQLAlchemy · OpenAI Responses API · Docker
+
+## Evaluation
 ```bash
-cd backend
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-export DATABASE_URL=sqlite:///./disputes.db
-uvicorn app.main:app --reload
+docker compose exec backend python -m app.evaluation
 ```
+The 100-case benchmark is synthetic regression coverage. It is not a claim of production model accuracy or business impact.
 
-### Frontend
-In another terminal:
-```bash
-cd frontend
-npm install
-NEXT_PUBLIC_API_URL=http://localhost:8000 npm run dev
-```
+## PM work
+See `product/` for the PRD, problem framing, product decisions, metrics/evaluation plan, and next iterations.
 
-## GitHub upload
-
-Create an empty GitHub repository named `ai-payment-dispute-management-system`, then run from this folder:
-
-```bash
-git init
-git add .
-git commit -m "Build payment dispute management MVP"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/ai-payment-dispute-management-system.git
-git push -u origin main
-```
-
-Do not commit `.env` or API keys.
-
-## Product flow
-1. Analyst opens dispute queue.
-2. Analyst selects a case.
-3. API retrieves transaction/evidence data.
-4. Explainable engine evaluates evidence completeness.
-5. System recommends `CONTEST`, `ACCEPT`, or `HUMAN_REVIEW`.
-6. Analyst sees rationale and missing evidence.
-7. Analyst updates case status.
-8. Audit event is stored.
-
-## API
-- `GET /health`
-- `GET /api/disputes`
-- `GET /api/disputes/{id}`
-- `POST /api/disputes`
-- `POST /api/disputes/{id}/analyze`
-- `PATCH /api/disputes/{id}/status`
-- `GET /api/disputes/{id}/events`
-- `GET /api/metrics`
-
-## Next portfolio iterations
-- Stripe test-mode webhook ingestion
-- Evidence document upload to object storage
-- RAG over dispute policies with citations
-- Authentication / RBAC
-- Background jobs
-- OpenTelemetry
-- Offline evaluation dataset
-- Hosted deployment
-
-
-## Client / portfolio package
-- `docs/PRD.md` — product requirements
-- `docs/CASE_STUDY.md` — PM case study
-- `docs/DEMO_SCRIPT.md` — 5-minute presentation flow
-- `docs/RESUME_METRICS.md` — rules for defensible quantified claims
-- `evaluation/user-study-template.csv` — collect real task-time data
-- `/api/evaluation` — reproducible 100-case synthetic benchmark
-
-## Important metric language
-The built-in benchmark is intentionally synthetic. Report it as **agreement on 100 labeled synthetic scenarios**, not "production accuracy." Time-saved and business-impact claims require a real usability/pilot study.
+This is a portfolio prototype using synthetic data. It does not claim real customer adoption, realized time savings, production accuracy, or financial impact.
